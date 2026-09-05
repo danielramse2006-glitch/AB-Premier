@@ -1,0 +1,7 @@
+Options -Indexes
+RewriteEngine On
+RewriteRule ^storage/ - [F,L]
+RewriteRule ^tools/ - [F,L]
+<FilesMatch "^(config\.php|lib\.php|cron-daily\.php)$">
+  Require all denied
+</FilesMatch>

@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AB Premiere | Barbería & Boutique de Lujo en Reynosa</title>
+    <meta name="description" content="Donde el Estilo y la Elegancia se encuentran. Barbería premium y ropa exclusiva en Reynosa, Tamaulipas.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            400: '#E5C983',
+                            500: '#D4AF37',
+                            600: '#C5A059',
+                            700: '#9E7C38',
+                        },
+                        luxDark: '#121212',
+                        luxCard: '#FFFFFF'
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #FAFAFA;
+            background-image: 
+                radial-gradient(at 10% 20%, rgba(197, 160, 89, 0.08) 0px, transparent 50%),
+                radial-gradient(at 90% 80%, rgba(212, 175, 55, 0.06) 0px, transparent 50%),
+                linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(245,243,238,0.95) 100%);
+            color: #1A1A1A;
+        }
+        .marble-card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(197, 160, 89, 0.25);
+        }
+        .gold-glow {
+            box-shadow: 0 10px 35px -5px rgba(197, 160, 89, 0.25);
+        }
+        .text-gold-gradient {
+            background: linear-gradient(135deg, #9E7C38 0%, #C5A059 40%, #D4AF37 70%, #E5C983 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-gold-600 selection:text-white relative overflow-x-hidden">
+
+    <!-- CINTILLA SUPERIOR DINÁMICA -->
+    <div class="bg-luxDark text-gold-400 text-xs py-2 px-4 border-b border-gold-600/30">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
+            <div class="flex items-center gap-4">
+                <span class="flex items-center gap-1.5 font-medium">📍 Reynosa, Tamaulipas</span>
+                <span class="hidden md:inline text-gray-600">|</span>
+                <span id="store-status" class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-900/60 text-emerald-300 border border-emerald-500/30">Abierto Ahora</span>
+            </div>
+            <div class="flex items-center gap-4 font-semibold">
+                <a href="https://wa.me/528991118348" target="_blank" class="flex items-center gap-1.5 text-emerald-400 hover:text-emerald-300 transition-colors">
+                    💬 WhatsApp: +52 899 111 8348
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md py-4 border-b border-gold-600/20 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+            
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-12 h-12 rounded-full border-2 border-gold-600 bg-luxDark flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
+                    <span class="font-serif font-black text-gold-400 text-base">AB</span>
+                </div>
+                <div>
+                    <h1 class="font-serif text-lg font-bold tracking-widest text-luxDark leading-tight">AB PREMIERE</h1>
+                    <p class="text-[9px] font-bold tracking-[0.3em] text-gold-600 uppercase">Barber & Store</p>
+                </div>
+            </a>
+
+            <nav class="hidden lg:flex items-center gap-7 font-semibold text-xs uppercase tracking-wider text-gray-700">
+                <a href="#inicio" class="hover:text-gold-600 transition-colors">Inicio</a>
+                <a href="#cortes" class="hover:text-gold-600 transition-colors">Catálogo Cortes</a>
+                <a href="#boutique" class="hover:text-gold-600 transition-colors">Boutique & Ropa</a>
+                <a href="#lookbook" class="hover:text-gold-600 transition-colors">Lookbook</a>
+                <a href="#familia" class="hover:text-gold-600 transition-colors">Familia AB</a>
+                <a href="#contacto" class="hover:text-gold-600 transition-colors">Ubicación</a>
+            </nav>
+
+            <div class="hidden lg:flex items-center">
+                <a href="https://wa.me/528991118348?text=Hola%20AB%20Premiere%20👋%20Quiero%20agendar%20una%20cita" target="_blank" class="bg-gradient-to-r from-gold-600 to-gold-700 hover:from-gold-500 hover:to-gold-600 text-white px-6 py-2.5 rounded-full font-bold text-xs uppercase tracking-wider shadow-md hover:shadow-lg transition-all">
+                    Agendar Cita
+                </a>
+            </div>
+
+            <button onclick="toggleMobileMenu()" class="lg:hidden p-2 text-luxDark rounded-lg border border-gold-600/30">
+                <svg id="menu-icon-open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                <svg id="menu-icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-b border-gold-600/20 px-4 pt-4 pb-6 space-y-3 shadow-xl">
+            <a href="#inicio" onclick="toggleMobileMenu()" class="block py-2 font-bold text-luxDark border-b border-gray-100">Inicio</a>
+            <a href="#cortes" onclick="toggleMobileMenu()" class="block py-2 text-gray-700">Catálogo Cortes</a>
+            <a href="#boutique" onclick="toggleMobileMenu()" class="block py-2 text-gray-700">Boutique & Ropa</a>
+            <a href="#lookbook" onclick="toggleMobileMenu()" class="block py-2 text-gray-700">Lookbook</a>
+            <a href="#familia" onclick="toggleMobileMenu()" class="block py-2 text-gray-700">Familia AB</a>
+            <a href="#contacto" onclick="toggleMobileMenu()" class="block py-2 text-gray-700">Ubicación</a>
+            <a href="https://wa.me/528991118348" target="_blank" class="block text-center mt-3 bg-gradient-to-r from-gold-600 to-gold-700 text-white py-3 rounded-xl font-bold text-xs uppercase tracking-wider">
+                Agendar Cita por WhatsApp
+            </a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION (MÁRMOL BLANCO CON VETAS DORADAS) -->
+    <section id="inicio" class="relative pt-16 pb-24 lg:pt-28 lg:pb-36 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 border border-gold-500/40 text-gold-700 shadow-sm">
+                        <span class="w-2 h-2 rounded-full bg-gold-500 animate-ping"></span>
+                        <span class="font-bold text-xs uppercase tracking-widest">
+                            Barbería Premium & Boutique en Reynosa
+                        </span>
+                    </div>
+
+                    <h2 class="font-serif text-4xl sm:text-6xl lg:text-7xl font-bold text-luxDark leading-[1.1]">
+                        Donde el Estilo & <br>
+                        <span class="text-gold-gradient">la Elegancia</span> se encuentran ✨
+                    </h2>
+
+                    <p class="text-gray-600 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
+                        Un concepto superior de imagen para caballeros. Cortes de precisión impecable, diseño de barba profesional y moda urbana exclusiva con el sello AB Premiere.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+                        <a href="https://wa.me/528991118348?text=Hola%20AB%20Premiere%20👋%20Quiero%20agendar%20mi%20cita" target="_blank" class="w-full sm:w-auto bg-gradient-to-r from-gold-600 to-gold-700 hover:from-gold-500 hover:to-gold-600 text-white px-8 py-4 rounded-2xl font-bold text-xs uppercase tracking-widest shadow-2xl gold-glow flex items-center justify-center gap-3 transition-all transform hover:scale-105">
+                            <span>💬 Agendar Cita por WhatsApp</span>
+                        </a>
+
+                        <a href="#cortes" class="w-full sm:w-auto bg-white hover:bg-gray-50 text-luxDark border border-gold-600/40 px-7 py-4 rounded-2xl font-bold text-xs uppercase tracking-widest shadow-sm flex items-center justify-center gap-2 transition-all">
+                            <span>Ver Catálogos</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 relative flex justify-center">
+                    <div class="relative w-80 h-80 sm:w-96 sm:h-96 rounded-full border-4 border-gold-500 bg-white p-4 gold-glow flex items-center justify-center overflow-hidden shadow-2xl group">
+                        <div class="absolute inset-4 rounded-full border-2 border-gold-600/40 flex flex-col items-center justify-center p-6 text-center bg-gradient-to-br from-white to-[#F5F2EC]">
+                            <div class="w-32 h-32 rounded-full border-2 border-gold-500 overflow-hidden mb-3 shadow-md relative">
+                                <img src="https://images.unsplash.com/photo-1561731216-c3a4d99437d5?auto=format&fit=crop&w=400&q=80" alt="Leopardo AB Premiere" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+                            </div>
+                            <h3 class="font-serif text-2xl font-black tracking-widest text-luxDark">AB PREMIERE</h3>
+                            <p class="text-[10px] font-bold tracking-[0.25em] text-gold-600 uppercase mt-1">Reynosa, Tamps.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN 1: CATÁLOGO DE CORTES & ESTILOS (INTERACTIVO) -->
+    <section id="cortes" class="py-24 relative border-t border-gold-600/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto space-y-4 mb-12">
+                <span class="font-bold text-xs uppercase tracking-widest text-gold-600 bg-white px-4 py-1.5 rounded-full border border-gold-600/30 shadow-sm">
+                    Catálogo de Barbería
+                </span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-luxDark">
+                    Cortes & Estilos de Alta Gama
+                </h2>
+                <p class="text-gray-600 text-sm">
+                    Selecciona tu servicio y agenda de inmediato con tu estilo preferido.
+                </p>
+
+                <!-- Filtros Interactivos de Cortes -->
+                <div class="flex flex-wrap items-center justify-center gap-2 pt-4">
+                    <button onclick="filterCuts('all')" class="cut-filter-btn active-filter px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-gold-600 text-white shadow transition-all">Todos</button>
+                    <button onclick="filterCuts('fade')" class="cut-filter-btn px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-white text-luxDark border border-gold-600/30 hover:bg-gold-50 transition-all">Fade / Degradados</button>
+                    <button onclick="filterCuts('barba')" class="cut-filter-btn px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-white text-luxDark border border-gold-600/30 hover:bg-gold-50 transition-all">Barba & Ritual</button>
+                    <button onclick="filterCuts('vip')" class="cut-filter-btn px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-white text-luxDark border border-gold-600/30 hover:bg-gold-50 transition-all">Experiencias VIP</button>
+                </div>
+            </div>
+
+            <!-- Grid de Cortes -->
+            <div id="cuts-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Corte 1 -->
+                <div class="cut-item marble-card rounded-3xl p-6 shadow-lg hover:shadow-xl transition-all flex flex-col justify-between group" data-category="fade">
+                    <div>
+                        <div class="h-56 rounded-2xl overflow-hidden mb-6 relative">
+                            <img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=600&q=80" alt="Fade Moderno" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-3 right-3 bg-luxDark text-gold-400 text-[10px] font-bold px-3 py-1 rounded-full uppercase">Más Pedido</span>
+                        </div>
+                        <h3 class="font-serif text-2xl font-bold text-luxDark mb-2">Fade Moderno / Degradado</h3>
+                        <p class="text-gray-600 text-xs sm:text-sm leading-relaxed mb-6">
+                            Corte difuminado lateral impecable con acabado en tijera en la parte superior y definición milimétrica con navaja.
+                        </p>
+                    </div>
+                    <a href="https://wa.me/528991118348?text=Hola%20AB%20Premiere%20👋%20Quiero%20agendar%20Corte%20Fade%20Moderno" target="_blank" class="pt-4 border-t border-gold-600/20 text-xs font-bold text-gold-700 hover:text-luxDark uppercase tracking-wider flex items-center justify-between">
+                        <span>Agendar este estilo</span>
+                        <span>→</span>
+                    </a>
+                </div>
+
+                <!-- Corte 2 -->
+                <div class="cut-item marble-card rounded-3xl p-6 shadow-lg hover:shadow-xl transition-all flex flex-col justify-between group" data-category="barba">
+                    <div>
+                        <div class="h-56 rounded-2xl overflow-hidden mb-6 relative">
+                            <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=600&q=80" alt="Barba y Estilizado" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-3 right-3 bg-luxDark text-gold-400 text-[10px] font-bold px-3 py-1 rounded-full uppercase">Ritual</span>
+                        </div>
+                        <h3 class="font-serif text-2xl font-bold text-luxDark mb-2">Diseño y Perfilado de Barba</h3>
+                        <p class="text-gray-600 text-xs sm:text-sm leading-relaxed mb-6">
+                            Ritual completo con toallas calientes, vapor, perfilado simétrico y aplicación de aceites hidratantes premium.
+                        </p>
+                    </div>
+                    <a href="https://wa.me/528991118348?text=Hola%20AB%20Premiere%20👋%20Quiero%20agendar%20Diseño%20de%20Barba" target="_blank" class="pt-4 border-t border-gold-600/20 text-xs font-bold text-gold-700 hover:text-luxDark uppercase tracking-wider flex items-center justify-between">
+                        <span>Agendar este estilo</span>
+                        <span>→</span>
+                    </a>
+                </div>
+
+                <!-- Corte 3 -->
+                <div class="cut-item marble-card rounded-3xl p-6 shadow-lg hover:shadow-xl transition-all flex flex-col justify-between group" data-category="vip">
+                    <div>
+                        <div class="h-56 rounded-2xl overflow-hidden mb-6 relative">
+                            <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=600&q=80" alt="Experiencia VIP" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-3 right-3 bg-luxDark text-gold-400 text-[10px] font-bold px-3 py-1 rounded-full uppercase">VIP Premiere</span>
+                        </div>
+                        <h3 class="font-serif text-2xl font-bold text-luxDark mb-2">Experiencia VIP Completa</h3>
+                        <p class="text-gray-600 text-xs sm:text-sm leading-relaxed mb-6">
+                            Corte completo + Barba + Masaje facial relajante + Mascarilla negra y estilizado con productos de alta categoría.
+                        </p>
+                    </div>
+                    <a href="https://wa.me/528991118348?text=Hola%20AB%20Premiere%20👋%20Quiero%20agendar%20Experiencia%20VIP" target="_blank" class="pt-4 border-t border-gold-600/20 text-xs font-bold text-gold-700 hover:text-luxDark uppercase tracking-wider flex items-center justify-between">
+                        <span>Agendar este estilo</span>
+                        <span>→</span>
+                    </a>
+                </div>
+
+                <!-- Corte 4 -->
+                <div class="cut-item marble-card rounded-3xl p-6 shadow-lg hover:shadow-xl transition-all flex flex-col justify-between group" data-category="fade">
+                    <div>
+                        <div class="h-56 rounded-2xl overflow-hidden mb-6 relative">
+                            <img src="https://images.unsplash.com/photo-1517832606293-7ae2fcff44aa?auto=format&fit=crop&w=600&q=80" alt="Taper Fade" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-3 right-3 bg-luxDark text-gold-400 text-[10px] font-bold px-3 py-1 rounded-full uppercase">Tendencia</span>
+                        </div>
+                        <h3 class="font-serif text-2xl font-bold text-luxDark mb-2">Taper Fade Clásico</h3>
+                        <p class="text-gray-600 text-xs sm:text-sm leading-relaxed mb-6">
+                            Degradado sutil en patillas y nuca, manteniendo volumen y textura natural en la parte superior. Estilo versátil y moderno.
+                        </p>
+                    </div>
+                    <a href="https://wa.me/528991118348?text=Hola%20AB%20Premiere%20👋%20Quiero%20agendar%20Taper%20Fade" target="_blank" class="pt-4 border-t border-gold-600/20 text-xs font-bold text-gold-700 hover:text-luxDark uppercase tracking-wider flex items-center justify-between">
+                        <span>Agendar este estilo</span>
+                        <span>→</span>
+                    </a>
+                </div>
+
+                <!-- Corte 5 -->
+                <div class="cut-item marble-card rounded-3xl p-6 shadow-lg hover:shadow-xl transition-all flex flex-col justify-between group" data-category="vip">
+                    <div>
+                        <div class="h-56 rounded-2xl overflow-hidden mb-6 relative">
+                            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=600&q=80" alt="Corte Ejecutivo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-3 right-3 bg-luxDark text-gold-400 text-[10px] font-bold px-3 py-1 rounded-full uppercase">Ejecutivo</span>
+                        </div>
+                        <h3 class="font-serif text-2xl font-bold text-luxDark mb-2">Corte Ejecutivo & Styling</h3>
+                        <p class="text-gray-600 text-xs sm:text-sm leading-relaxed mb-6">
+                            Diseñado para el hombre de negocios. Corte clásico impecable con raya marcada, lavado y peinado con pomada mate.
+                        </p>
+                    </div>
+                    <a href="https://wa.me/528991118348?text=Hola%20AB%20Premiere%20👋%20Quiero%20agendar%20Corte%20Ejecutivo" target="_blank" class="pt-4 border-t border-gold-600/20 text-xs font-bold text-gold-700 hover:text-luxDark uppercase tracking-wider flex items-center justify-between">
+                        <span>Agendar este estilo</span>
+                        <span>→</span>
+                    </a>
+                </div>
+
+                <!-- Corte 6 -->
+                <div class="cut-item marble-card rounded-3xl p-6 shadow-lg hover:shadow-xl transition-all flex flex-col justify-between group" data-category="barba">
+                    <div>
+                        <div class="h-56 rounded-2xl overflow-hidden mb-6 relative">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80" alt="Mantenimiento" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-3 right-3 bg-luxDark text-gold-400 text-[10px] font-bold px-3 py-1 rounded-full uppercase">Mantenimiento</span>
+                        </div>
+                        <h3 class="font-serif text-2xl font-bold text-luxDark mb-2">Afeitado Clásico a Navaja</h3>
+                        <p class="text-gray-600 text-xs sm:text-sm leading-relaxed mb-6">
+                            Afeitado tradicional con espuma caliente, navaja de precisión y loción post-afeitado calmante para pieles sensibles.
+                        </p>
+                    </div>
+                    <a href="https://wa.me/528991118348?text=Hola%20AB%20Premiere%20👋%20Quiero%20agendar%20Afeitado%20Clásico" target="_blank" class="pt-4 border-t border-gold-600/20 text-xs font-bold text-gold-700 hover:text-luxDark uppercase tracking-wider flex items-center justify-between">
+                        <span>Agendar este estilo</span>
+                        <span>→</span>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN 2: CATÁLOGO DE ROPA Y BOUTIQUE URBANA (INTERACTIVO) -->
+    <section id="boutique" class="py-24 bg-white border-t border-b border-gold-600/20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto space-y-4 mb-12">
+                <span class="font-bold text-xs uppercase tracking-widest text-gold-600 bg-cream-200 px-4 py-1.5 rounded-full border border-gold-600/30">
+                    AB Store & Apparel
+                </span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-luxDark">
+                    Boutique de Moda Exclusiva
+                </h2>
+                <p class="text-gray-600 text-sm">
+                    Prendas seleccionadas con estilo urbano y sofisticado. Consulta tallas y disponibilidad directo por WhatsApp.
+                </p>
+
+                <!-- Filtros Boutique -->
+                <div class="flex flex-wrap items-center justify-center gap-2 pt-4">
+                    <button onclick="filterStore('all')" class="store-filter-btn active-store-btn px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-gold-600 text-white shadow transition-all">Todo el Catálogo</button>
+                    <button onclick="filterStore('playeras')" class="store-filter-btn px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-white text-luxDark border border-gold-600/30 hover:bg-gold-50 transition-all">Playeras</button>
+                    <button onclick="filterStore('polos')" class="store-filter-btn px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-white text-luxDark border border-gold-600/30 hover:bg-gold-50 transition-all">Camisas & Polos</button>
+                    <button onclick="filterStore('urban')" class="store-filter-btn px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-white text-luxDark border border-gold-600/30 hover:bg-gold-50 transition-all">Moda Urbana</button>
+                </div>
+            </div>
+
+            <!-- Grid Boutique -->
+            <div id="store-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                
+                <!-- Producto 1 -->
+                <div class="store-item marble-card rounded-3xl p-5 shadow-lg hover:shadow-xl transition-all flex flex-col justify-between group" data-category="playeras">
+                    <div>
+                        <div class="h-64 rounded-2xl overflow-hidden mb-4 relative">
+                            <img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80" alt="Playera Oversize AB" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-3 right-3 bg-luxDark text-gold-400 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">Nuevo</span>
+                        </div>
+                        <h3 class="font-serif text-lg font-bold text-luxDark mb-1">Playera Premium Oversize</h3>
+                        <p class="text-gray-500 text-xs mb-3">Algodón peinado de alta densidad con estampado minimalista AB.</p>
+                    </div>
+                    <div class="pt-3 border-t border-gold-600/20 flex items-center justify-between">
+                        <span class="text-xs font-bold text-gold-700 uppercase">Consultar Tallas</span>
+                        <a href="https://wa.me/528991118348?text=Hola%20AB%20Premiere%20👋%20Me%20interesa%20la%20Playera%20Premium%20Oversize" target="_blank" class="bg-luxDark text-gold-400 hover:bg-gold-600 hover:text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-colors">
+                            Pedir 💬
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Producto 2 -->
+                <div class="store-item marble-card rounded-3xl p-5 shadow-lg hover:shadow-xl transition-all flex flex-col justify-between group" data-category="polos">
+                    <div>
+                        <div class="h-64 rounded-2xl overflow-hidden mb-4 relative">
+                            <img src="https://images.unsplash.com/photo-1625910134216-189ce614a561?auto=format&fit=crop&w=600&q=80" alt="Polo de Lujo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-3 right-3 bg-luxDark text-gold-400 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">Exclusivo</span>
+                        </div>
+                        <h3 class="font-serif text-lg font-bold text-luxDark mb-1">Camisa Polo Estilo Elegante</h3>
+                        <p class="text-gray-500 text-xs mb-3">Diseño entallado con detalles dorados sutiles en cuello y mangas.</p>
+                    </div>
+                    <div class="pt-3 border-t border-gold-600/20 flex items-center justify-between">
+                        <span class="text-xs font-bold text-gold-700 uppercase">Consultar Tallas</span>
+                        <a href="https://wa.me/528991118348?text=Hola%20AB%20Premiere%20👋%20Me%20interesa%20la%20Camisa%20Polo%20Estilo%20Elegante" target="_blank" class="bg-luxDark text-gold-400 hover:bg-gold-600 hover:text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-colors">
+                            Pedir 💬
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Producto 3 -->
+                <div class="store-item marble-card rounded-3xl p-5 shadow-lg hover:shadow-xl transition-all flex flex-col justify-between group" data-category="urban">
+                    <div>
+                        <div class="h-64 rounded-2xl overflow-hidden mb-4 relative">
+                            <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=600&q=80" alt="Chamarra Urbana" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-3 right-3 bg-luxDark text-gold-400 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">Limitado</span>
+                        </div>
+                        <h3 class="font-serif text-lg font-bold text-luxDark mb-1">Chamarra Urbana Bomber</h3>
+                        <p class="text-gray-500 text-xs mb-3">Corte moderno con forro interno térmico y acabados de alta resistencia.</p>
+                    </div>
+                    <div class="pt-3 border-t border-gold-600/20 flex items-center justify-between">
+                        <span class="text-xs font-bold text-gold-700 uppercase">Consultar Tallas</span>
+                        <a href="https://wa.me/528991118348?text=Hola%20AB%20Premiere%20👋%20Me%20interesa%20la%20Chamarra%20Urbana%20Bomber" target="_blank" class="bg-luxDark text-gold-400 hover:bg-gold-600 hover:text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-colors">
+                            Pedir 💬
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Producto 4 -->
+                <div class="store-item marble-card rounded-3xl p-5 shadow-lg hover:shadow-xl transition-all flex flex-col justify-between group" data-category="playeras">
+                    <div>
+                        <div class="h-64 rounded-2xl overflow-hidden mb-4 relative">
+                            <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&w=600&q=80" alt="Playera Negra AB" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-3 right-3 bg-luxDark text-gold-400 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">Bestseller</span>
+                        </div>
+                        <h3 class="font-serif text-lg font-bold text-luxDark mb-1">Playera Signature Negra</h3>
+                        <p class="text-gray-500 text-xs mb-3">Color negro azabache con logotipo bordado en pecho en hilo dorado.</p>
+                    </div>
+                    <div class="pt-3 border-t border-gold-600/20 flex items-center justify-between">
+                        <span class="text-xs font-bold text-gold-700 uppercase">Consultar Tallas</span>
+                        <a href="https://wa.me/528991118348?text=Hola%20AB%20Premiere%20👋%20Me%20interesa%20la%20Playera%20Signature%20Negra" target="_blank" class="bg-luxDark text-gold-400 hover:bg-gold-600 hover:text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-colors">
+                            Pedir 💬
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECCIÓN 3: LOOKBOOK / TRABAJOS RECIENTES (ESTILO INSTAGRAM GRID) -->
+    <section id="lookbook" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+                <span class="font-bold text-xs uppercase tracking-widest text-gold-600 bg-white px-4 py-1.5 rounded-full border border-gold-600/30 shadow-sm">
+                    Galería Lookbook
+                </span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-luxDark">
+                    Trabajos Realizados en AB Premiere
+                </h2>
+                <p class="text-gray-600 text-sm">
+                    Echa un vistazo a la calidad de nuestros cortes y estilos reales directo desde el estudio en Reynosa.
+                </p>
+            </div>
+
+            <!-- Grid Instagram style -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="h-64 rounded-2xl overflow-hidden relative group shadow-md">
+                    <img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=500&q=80" alt="Look 1" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span class="text-white text-xs font-bold tracking-widest uppercase">@ab_premiere</span>
+                    </div>
+                </div>
+                <div class="h-64 rounded-2xl overflow-hidden relative group shadow-md">
+                    <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=500&q=80" alt="Look 2" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span class="text-white text-xs font-bold tracking-widest uppercase">@ab_premiere</span>
+                    </div>
+                </div>
+                <div class="h-64 rounded-2xl overflow-hidden relative group shadow-md">
+                    <img src="https://images.unsplash.com/photo-1517832606293-7ae2fcff44aa?auto=format&fit=crop&w=500&q=80" alt="Look 3" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span class="text-white text-xs font-bold tracking-widest uppercase">@ab_premiere</span>
+                    </div>
+                </div>
+                <div class="h-64 rounded-2xl overflow-hidden relative group shadow-md">
+                    <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=500&q=80" alt="Look 4" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span class="text-white text-xs font-bold tracking-widest uppercase">@ab_premiere</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN 4: TESTIMONIOS (LA FAMILIA AB) -->
+    <section class="py-20 bg-white border-t border-b border-gold-600/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+                <span class="font-bold text-xs uppercase tracking-widest text-gold-600">Prueba Social</span>
+                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-luxDark">
+                    Lo que dice la Familia AB
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <div class="marble-card p-8 rounded-3xl space-y-4 shadow-lg">
+                    <div class="text-gold-500 text-lg">★★★★★</div>
+                    <p class="text-gray-700 text-sm italic">
+                        “El mejor lugar en Reynosa sin duda. El trato es excepcional, te asesoran con el corte y la ropa de la tienda está increíble. 100% recomendados.”
+                    </p>
+                    <div class="pt-2 border-t border-gold-600/20 flex items-center justify-between">
+                        <span class="font-serif font-bold text-luxDark text-sm">Carlos M.</span>
+                        <span class="text-[10px] text-gold-600 font-bold uppercase">Cliente Verificado</span>
+                    </div>
+                </div>
+
+                <div class="marble-card p-8 rounded-3xl space-y-4 shadow-lg">
+                    <div class="text-gold-500 text-lg">★★★★★</div>
+                    <p class="text-gray-700 text-sm italic">
+                        “La atención al detalle en el diseño de barba y el ambiente del local con acabados de mármol y oro es de otro nivel. Valen cada peso.”
+                    </p>
+                    <div class="pt-2 border-t border-gold-600/20 flex items-center justify-between">
+                        <span class="font-serif font-bold text-luxDark text-sm">Alejandro R.</span>
+                        <span class="text-[10px] text-gold-600 font-bold uppercase">Cliente Verificado</span>
+                    </div>
+                </div>
+
+                <div class="marble-card p-8 rounded-3xl space-y-4 shadow-lg">
+                    <div class="text-gold-500 text-lg">★★★★★</div>
+                    <p class="text-gray-700 text-sm italic">
+                        “Compré una playera oversize y salí recortado. Literalmente te atienden como familia. ¡Mi barbería de confianza de por vida!”
+                    </p>
+                    <div class="pt-2 border-t border-gold-600/20 flex items-center justify-between">
+                        <span class="font-serif font-bold text-luxDark text-sm">Daniel G.</span>
+                        <span class="text-[10px] text-gold-600 font-bold uppercase">Cliente Verificado</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FILOSOFÍA FAMILIA AB -->
+    <section id="familia" class="py-20 relative text-center">
+        <div class="max-w-4xl mx-auto px-4 space-y-6">
+            <span class="text-xs font-bold uppercase tracking-[0.3em] text-gold-600 bg-white px-4 py-1.5 rounded-full border border-gold-600/30 shadow-sm">Nuestra Esencia</span>
+            <h2 class="font-serif text-3xl sm:text-5xl font-bold text-luxDark italic">
+                “El logo lo representamos todos, porque en AB PREMIERE somos familia” ✨
+            </h2>
+            <p class="text-gray-600 text-sm sm:text-base max-w-2xl mx-auto font-normal">
+                Un espacio distinguido donde cada cliente recibe asesoría de imagen personalizada y un trato de primer nivel en Reynosa.
+            </p>
+        </div>
+    </section>
+
+    <!-- CONTACTO Y UBICACIÓN -->
+    <section id="contacto" class="py-24 bg-white border-t border-gold-600/20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                
+                <div class="space-y-6">
+                    <span class="font-bold text-xs uppercase tracking-widest text-gold-600 bg-cream-200 px-4 py-1.5 rounded-full border border-gold-600/30">
+                        Visítanos en Reynosa
+                    </span>
+
+                    <h2 class="font-serif text-3xl font-bold text-luxDark">
+                        AB Premiere Barber & Store
+                    </h2>
+
+                    <div class="space-y-4 text-xs sm:text-sm text-gray-600">
+                        <div class="flex items-start gap-3">
+                            <span class="text-gold-600 text-lg">📍</span>
+                            <div>
+                                <strong class="text-luxDark">Reynosa, Tamaulipas</strong><br>
+                                <span>Donde el Estilo & la Elegancia se encuentran ✨</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-3">
+                            <span class="text-gold-600 text-lg">📞</span>
+                            <div>
+                                <strong class="text-luxDark">WhatsApp de Citas & Tienda:</strong><br>
+                                <span class="text-gold-700 font-bold">+52 899 111 8348</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-3">
+                            <span class="text-gold-600 text-lg">📸</span>
+                            <div>
+                                <strong class="text-luxDark">Instagram oficial:</strong> ab_premiere
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <a href="https://wa.me/528991118348?text=Hola%20AB%20Premiere%20👋%20Quiero%20la%20ubicación%20exacta" target="_blank" class="bg-gradient-to-r from-gold-600 to-gold-700 text-white font-bold text-xs px-6 py-3 rounded-xl uppercase tracking-wider shadow-lg hover:shadow-xl transition-all">
+                            Abrir Ubicación en WhatsApp
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Tarjeta Estilizada con Mármol -->
+                <div class="h-80 rounded-3xl overflow-hidden border border-gold-600/40 shadow-2xl marble-card relative flex items-center justify-center p-8 text-center">
+                    <div class="relative z-10 space-y-4">
+                        <div class="w-16 h-16 rounded-full border-2 border-gold-500 bg-luxDark mx-auto flex items-center justify-center text-gold-400 text-2xl font-serif font-black shadow-lg">
+                            AB
+                        </div>
+                        <h3 class="font-serif text-2xl font-bold text-luxDark">AB PREMIERE</h3>
+                        <p class="text-xs text-gold-700 font-semibold">“El logo lo representamos todos, porque en AB PREMIERE somos familia” ✨</p>
+                        <a href="https://wa.me/528991118348" target="_blank" class="inline-block mt-2 bg-gradient-to-r from-gold-600 to-gold-700 text-white px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider shadow">
+                            Contactar Asesor
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-luxDark text-white py-12 border-t border-gold-600/30 text-center space-y-4">
+        <p class="font-serif text-lg font-bold tracking-wider text-gold-400">
+            AB PREMIERE — Barber & Store
+        </p>
+        <p class="text-xs text-gray-400">
+            Reynosa, Tamaulipas · Tel. +52 899 111 8348 · @ab_premiere
+        </p>
+        <p class="text-[10px] text-gold-500 pt-4 border-t border-gold-600/20">
+            © 2026 AB Premiere. Todos los derechos reservados. En AB PREMIERE somos familia ✨
+        </p>
+    </footer>
+
+    <!-- BOTÓN FLOTANTE WHATSAPP -->
+    <a href="https://wa.me/528991118348?text=Hola%20AB%20Premiere%20👋%20Me%20gustaría%20agendar%20una%20cita" target="_blank" rel="noopener noreferrer" class="fixed bottom-6 right-6 z-50 bg-emerald-600 hover:bg-emerald-700 text-white p-4 rounded-full shadow-2xl flex items-center gap-3 transition-transform hover:scale-110 gold-glow">
+        <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.205 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+        <span class="hidden sm:inline-block font-bold text-xs uppercase tracking-wider pr-1">
+            Agendar Cita
+        </span>
+    </a>
+
+    <!-- SCRIPTS DE INTERACTIVIDAD Y FILTROS -->
+    <script>
+        // Menú móvil
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+            document.getElementById('menu-icon-open').classList.toggle('hidden');
+            document.getElementById('menu-icon-close').classList.toggle('hidden');
+        }
+
+        // Filtro interactivo para Catálogo de Cortes
+        function filterCuts(category) {
+            const items = document.querySelectorAll('.cut-item');
+            const buttons = document.querySelectorAll('.cut-filter-btn');
+
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-gold-600', 'text-white', 'shadow');
+                btn.classList.add('bg-white', 'text-luxDark');
+            });
+            event.target.classList.remove('bg-white', 'text-luxDark');
+            event.target.classList.add('bg-gold-600', 'text-white', 'shadow');
+
+            items.forEach(item => {
+                if (category === 'all' || item.getAttribute('data-category') === category) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Filtro interactivo para Tienda / Boutique de Ropa
+        function filterStore(category) {
+            const items = document.querySelectorAll('.store-item');
+            const buttons = document.querySelectorAll('.store-filter-btn');
+
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-gold-600', 'text-white', 'shadow');
+                btn.classList.add('bg-white', 'text-luxDark');
+            });
+            event.target.classList.remove('bg-white', 'text-luxDark');
+            event.target.classList.add('bg-gold-600', 'text-white', 'shadow');
+
+            items.forEach(item => {
+                if (category === 'all' || item.getAttribute('data-category') === category) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

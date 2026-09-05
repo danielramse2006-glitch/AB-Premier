@@ -1,0 +1,6 @@
+Flask>=3.1,<4
+waitress>=3.0,<4
+pywebview>=5.4,<7
+pythonnet>=3.0.5,<4
+pyinstaller>=6.0,<7
+openpyxl>=3.1,<4

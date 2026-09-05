@@ -1,0 +1,18 @@
+.venv/
+build/
+__pycache__/
+data/
+*.pyc
+# Local builds and runtime dependencies
+dist/
+web/tools/
+
+# Local databases and private configuration
+*.sqlite
+*.sqlite-*
+*.db
+.env
+.env.*
+!.env.example
+*.pem
+*.key
