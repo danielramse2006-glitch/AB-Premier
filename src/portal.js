@@ -1,5 +1,4 @@
 import { api, notice } from './supabase.js';
-import { rewards } from './rewards.js';
 import { celebrate, unlockSound, closeCelebration } from './celebration.js';
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -10,7 +9,7 @@ async function loadCatalogs(){const d=await api('catalogs');for(const [id,rows] 
 $('lookupForm').onsubmit=async e=>{
  e.preventDefault();current=null;$('clientArea').classList.add('hidden');
  try{const d=await api('lookup',{code:$('code').value});current=d.client;const n=current.visits;
- $('clientCard').innerHTML=`<div class="client-result"><img class="avatar" alt="Socio AB Premier" src="${esc(current.photo_url||'assets/logo-ab-premiere.png')}"><div><h2>${esc(current.full_name)}</h2>${current.premium?'<span class="premium">★ Cliente Premium</span>':''}<p>Código: <b>${esc(current.code)}</b> · Último corte: ${esc(current.last_visit?.slice(0,10)||'Sin cortes')}</p><div class="stats"><div class="stat"><b>${n}</b>Cortes acumulados</div><div class="stat"><b>${current.next_courtesy??'★'}</b>${current.next_courtesy?'Próximo premio':'Nivel Premium'}</div></div>${current.next_prize?`<p>Tu próximo premio: <b>${esc(current.next_prize)}</b></p>`:'<p>¡Completaste todos los premios de Familia AB!</p>'}${current.one_away?'<div class="message">🎁 ¡Te falta un corte para ganar tu próximo premio!</div>':''}${current.birthday_month?'<div class="message">🎂 ¡Feliz mes de cumpleaños!</div>':''}</div></div><div class="reward-ladder">${rewards.map(([cut,name])=>`<div class="reward-step ${n>=cut?'earned':''}"><b>${n>=cut?'✓ ':''}Corte ${cut}</b>${esc(name)}</div>`).join('')}</div>`;
+ $('clientCard').innerHTML=`<div class="client-result"><img class="avatar" alt="Socio AB Premier" src="${esc(current.photo_url||'assets/logo-ab-premiere.png')}"><div><h2>${esc(current.full_name)}</h2>${current.premium?'<span class="premium">★ Cliente Premium</span>':''}<p>Código: <b>${esc(current.code)}</b> · Último corte: ${esc(current.last_visit?.slice(0,10)||'Sin cortes')}</p><div class="stats"><div class="stat"><b>${n}</b>Cortes acumulados</div><div class="stat"><b>${current.next_courtesy??'★'}</b>${current.next_courtesy?'Próximo premio':'Nivel Premium'}</div></div>${current.next_prize?`<p>Tu próximo premio: <b>${esc(current.next_prize)}</b></p>`:'<p>¡Completaste todos los premios de Familia AB!</p>'}${current.one_away?'<div class="message">🎁 ¡Te falta un corte para ganar tu próximo premio!</div>':''}${current.birthday_month?'<div class="message">🎂 ¡Feliz mes de cumpleaños!</div>':''}</div></div>`;
  $('lookupMessage').textContent='';$('clientArea').classList.remove('hidden');
  }catch(e){msg('lookupMessage',esc(e.message),true);}
 };
