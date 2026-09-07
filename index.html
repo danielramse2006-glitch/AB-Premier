@@ -1,4 +1,76 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AB Premiere | Socios</title><link rel="stylesheet" href="assets/style.css"><link rel="stylesheet" href="assets/rewards.css"></head><body class="socios"><header><div class="brand"><img src="assets/logo-ab-premiere.png">AB PREMIERE</div><a href="admin.html">Administración →</a></header><main class="wrap"><section class="hero"><img src="assets/logo-ab-premiere.png"><h1>Control de Visitas <span style="color:var(--gold2)">Familia AB</span></h1><p>Consulta tus beneficios, selecciona tu barbero y registra tu servicio.</p></section><div id="connection" class="message" role="status">Conectando…</div><section class="card portal hidden" id="portalContent"><div class="tabs"><button class="btn active" id="tabLookup" onclick="tab('lookup')">Ingresar código</button><button class="btn alt" id="tabRegister" onclick="tab('register')">Nuevo socio</button></div>
-<div id="lookup" class="panel active"><h2>Ingresa tu código de 4 dígitos</h2><form id="lookupForm"><input id="code" maxlength="4" pattern="[0-9]{4}" inputmode="numeric" placeholder="Ej. 2026" required><button class="btn wide" style="margin-top:15px">Consultar mis datos</button></form><div id="lookupMessage"></div><div id="clientArea" class="hidden"><div id="clientCard"></div><div class="grid2"><div><label>Selecciona barbero</label><select id="barber"></select></div><div><label>Selecciona corte o servicio</label><select id="service"></select></div></div><button class="btn wide" style="margin-top:18px" id="registerVisitButton" onclick="registerVisit()">Registrar corte</button></div></div>
-<div id="register" class="panel"><h2>Registro de nuevo socio</h2><div class="camera"><video id="video" autoplay playsinline></video></div><p style="text-align:center"><button class="btn alt" onclick="startCamera()">Encender cámara</button> <button class="btn" onclick="capture()">Tomar foto</button></p><canvas id="canvas" hidden></canvas><form id="registerForm"><div class="grid2"><div><label>Nombre completo</label><input id="fullName" required></div><div><label>Fecha de nacimiento</label><input id="birthDate" type="date" required></div><div><label>Teléfono</label><input id="phone"></div><div class="muted">El registro será autorizado con la sesión del encargado.</div></div><button class="btn wide" style="margin-top:18px">Crear socio</button></form><div id="registerMessage"></div></div></section></main><footer>AB PREMIERE · Reynosa, Tamaulipas</footer>
-<script type="module" src="/src/portal.js"></script></body></html>
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AB Premiere | Kiosco</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/rewards.css">
+</head>
+<body class="socios kiosk">
+  <main class="kiosk-screen">
+    <section class="kiosk-brand" aria-label="Bienvenida AB Premiere">
+      <img class="kiosk-logo" src="assets/logo-ab-premiere.png" alt="AB Premiere">
+      <p class="kiosk-overline">Bienvenido a</p>
+      <h1>AB Premiere</h1>
+      <p class="kiosk-subtitle">Donde el estilo y la elegancia se encuentran</p>
+      <p class="kiosk-script">Familia AB</p>
+      <div class="kiosk-points">
+        <span>Estilo Premium</span>
+        <span>Barberos Expertos</span>
+        <span>Tus Beneficios Te Esperan</span>
+      </div>
+    </section>
+
+    <section class="kiosk-panel" id="portalContent" aria-label="Registro de visita">
+      <div id="connection" class="kiosk-status" role="status">Conectando...</div>
+      <div id="lookupMessage" class="kiosk-message" role="status"></div>
+
+      <div id="nipStep">
+        <p class="kiosk-panel-title">Ingresa tu NIP</p>
+        <p class="kiosk-panel-subtitle">Para registrar tu visita</p>
+        <form id="lookupForm" class="kiosk-form">
+          <input id="code" maxlength="4" pattern="[0-9]{4}" inputmode="numeric" autocomplete="off" aria-label="NIP de 4 digitos" required>
+          <div class="pin-dots" aria-hidden="true">
+            <span></span><span></span><span></span><span></span>
+          </div>
+          <div class="keypad">
+            <button type="button" data-key="1">1</button>
+            <button type="button" data-key="2">2</button>
+            <button type="button" data-key="3">3</button>
+            <button type="button" data-key="4">4</button>
+            <button type="button" data-key="5">5</button>
+            <button type="button" data-key="6">6</button>
+            <button type="button" data-key="7">7</button>
+            <button type="button" data-key="8">8</button>
+            <button type="button" data-key="9">9</button>
+            <button type="button" data-key="back" aria-label="Borrar">⌫</button>
+            <button type="button" data-key="0">0</button>
+            <button type="submit" class="confirm-key" aria-label="Aceptar">✓</button>
+          </div>
+        </form>
+      </div>
+
+      <div id="clientArea" class="hidden">
+        <div id="clientCard"></div>
+        <div class="kiosk-selects">
+          <div>
+            <label>Barbero</label>
+            <select id="barber"></select>
+          </div>
+          <div>
+            <label>Corte o servicio</label>
+            <select id="service"></select>
+          </div>
+        </div>
+        <button class="kiosk-register" id="registerVisitButton" onclick="registerVisit()">Registrar visita</button>
+        <button class="kiosk-back" onclick="resetKiosk()">Cambiar NIP</button>
+      </div>
+    </section>
+
+    <p class="kiosk-tagline">Tu estilo, tu experiencia, tus beneficios.</p>
+    <a class="admin-access" href="admin.html">Administracion</a>
+  </main>
+  <script type="module" src="/src/portal.js"></script>
+</body>
+</html>

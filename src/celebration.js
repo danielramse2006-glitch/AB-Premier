@@ -1,10 +1,10 @@
 const base=import.meta.env.BASE_URL;
-let audio=new Audio(`${base}assets/yay.mp3`),context,buffer,source,dialog,lastFocus,raf,timer;
+let audio=new Audio(`${base}assets/celebration.mp3`),context,buffer,source,dialog,lastFocus,raf,timer;
 audio.preload='auto';
 // Resume during the visit button's user gesture, before awaiting the database.
 export function unlockSound(){
  try{context??=new(window.AudioContext||window.webkitAudioContext)();context.resume().catch(()=>{});
- if(!buffer)fetch(`${base}assets/yay.mp3`).then(r=>r.arrayBuffer()).then(b=>context.decodeAudioData(b)).then(b=>buffer=b).catch(()=>{});
+ if(!buffer)fetch(`${base}assets/celebration.mp3`).then(r=>r.arrayBuffer()).then(b=>context.decodeAudioData(b)).then(b=>buffer=b).catch(()=>{});
  }catch{}
 }
 function play(){
