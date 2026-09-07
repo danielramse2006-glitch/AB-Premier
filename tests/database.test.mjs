@@ -2,6 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { PGlite } from '@electric-sql/pglite';
+import { rewards } from '../src/rewards.js';
 
 test('Database authorization, visit rules, courtesies and audit',async()=>{
  const db=new PGlite();
@@ -42,5 +43,33 @@ test('Database authorization, visit rules, courtesies and audit',async()=>{
  await assert.rejects(()=>rpc('set_admin',{id:admin,active:false}),/propia cuenta/);
  await db.exec('reset role');await db.exec(`update public.profiles set active=false where id='${reader}'`);await login(reader);
  await assert.rejects(()=>rpc('dashboard'),/Acceso restringido/);
+ await db.exec('reset role');
+ await db.exec(fs.readFileSync('supabase/migrations/202609060002_rewards.sql','utf8'));
+ await db.exec(fs.readFileSync('supabase/migrations/202609060002_rewards.sql','utf8'));
+ await db.exec(fs.readFileSync('supabase/demo/01_datos_prueba.sql','utf8'));
+ await login(admin);
+ const milestones=[5,10,15,20,25,28,32,35];
+ assert.equal((await rpc('rewards')).version,2);
+ for(const target of milestones){
+  const code='91'+String(target).padStart(2,'0');
+  const before=(await rpc('lookup',{code})).client;
+  assert.equal(before.visits,target-1);assert.equal(before.next_courtesy,target);assert.equal(before.one_away,true);
+  const v=await rpc('visit',{code,barber_id:1,service_id:1,prize_name:'Hacked',points:9999});
+  assert.equal(v.visit_number,target);assert.equal(v.courtesy_won,true);assert.equal(v.prize_name,rewards.find(([cut])=>cut===target)[1]);assert.equal(v.points_earned,0);assert.equal(v.premium,target===35);
+  await assert.rejects(()=>rpc('visit',{code,barber_id:1,service_id:1}),/ya tiene una visita/);
+ }
+ assert.equal((await rpc('lookup',{code:'9135'})).client.next_courtesy,null);
+ assert.ok((await rpc('export')).visits.some(v=>v.prize_name==='Bebidas gratis'));
+ // Seed can be rerun without resetting earned rewards or duplicating demo clients.
+ await db.exec('reset role');await db.exec(fs.readFileSync('supabase/demo/01_datos_prueba.sql','utf8'));
+ assert.equal((await db.query('select count(*)::int n from public.clients where is_demo')).rows[0].n,8);
+ // An unlisted cut (30) must not award the old every-five reward.
+ await login(admin);const extra=await rpc('register',{full_name:'Non milestone'});
+ await db.exec('reset role');
+ await db.query(`insert into public.visits(client_id,barber_id,service_id,visited_at,visit_day,points_earned,visit_number,courtesy_won,created_by)
+ select $1,1,1,now()-make_interval(days=>30-i),(now() at time zone 'America/Matamoros')::date-(30-i),0,i,false,$2 from generate_series(1,29) i`,[extra.id,admin]);
+ await login(admin);const non=await rpc('visit',{code:extra.code,barber_id:1,service_id:1});assert.equal(non.visit_number,30);assert.equal(non.courtesy_won,false);assert.equal(non.prize_name,null);
+ assert.equal((await rpc('lookup',{code:extra.code})).client.next_courtesy,32);
+ await login(outsider);await assert.rejects(()=>rpc('rewards'),/Acceso restringido/);
  await db.close();
 });
