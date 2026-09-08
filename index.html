@@ -23,9 +23,15 @@
     </section>
 
     <section class="kiosk-panel" id="portalContent" aria-label="Registro de visita">
+      <div class="kiosk-clock" id="matamorosClock"></div>
       <div id="connection" class="kiosk-status" role="status">Conectando...</div>
       <div id="lookupMessage" class="kiosk-message" role="status"></div>
+      <div class="kiosk-tabs">
+        <button type="button" class="active" id="visitModeButton" onclick="showKioskMode('visit')">Registrar visita</button>
+        <button type="button" id="registerModeButton" onclick="showKioskMode('register')">Registrar socio</button>
+      </div>
 
+      <div id="visitStep">
       <div id="nipStep">
         <p class="kiosk-panel-title">Ingresa tu NIP</p>
         <p class="kiosk-panel-subtitle">Para registrar tu visita</p>
@@ -66,10 +72,29 @@
         <button class="kiosk-register" id="registerVisitButton" onclick="registerVisit()">Registrar visita</button>
         <button class="kiosk-back" onclick="resetKiosk()">Cambiar NIP</button>
       </div>
+      </div>
+
+      <div id="registerStep" class="hidden">
+        <p class="kiosk-panel-title">Registrar socio</p>
+        <p class="kiosk-panel-subtitle">Alta Familia AB</p>
+        <div class="kiosk-camera"><video id="video" autoplay playsinline></video></div>
+        <p class="camera-actions"><button type="button" onclick="startCamera()">Encender camara</button><button type="button" onclick="capture()">Tomar foto</button></p>
+        <canvas id="canvas" hidden></canvas>
+        <form id="registerForm" class="kiosk-register-form">
+          <label>Nombre completo</label>
+          <input id="fullName" required>
+          <label>Fecha de nacimiento</label>
+          <input id="birthDate" type="date">
+          <label>Telefono</label>
+          <input id="phone">
+          <button class="kiosk-register" type="submit">Crear socio</button>
+        </form>
+        <div id="registerMessage" class="kiosk-message" role="status"></div>
+      </div>
     </section>
 
     <p class="kiosk-tagline">Tu estilo, tu experiencia, tus beneficios.</p>
-    <a class="admin-access" href="admin.html?view=clients">Registrar socio / Administracion</a>
+    <a class="admin-access" href="admin.html?view=clients">Administracion</a>
   </main>
   <script type="module" src="/src/portal.js"></script>
 </body>

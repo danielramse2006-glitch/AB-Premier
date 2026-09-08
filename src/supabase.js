@@ -2,6 +2,10 @@ import { nextReward } from './rewards.js';
 import { createClient } from '@supabase/supabase-js';
 import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY } from './config.js';
 export const sb=createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+const matamoros='America/Matamoros';
+export const formatMatamorosDate=s=>s?new Intl.DateTimeFormat('es-MX',{timeZone:matamoros,year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(s)):'';
+export const formatMatamorosTime=s=>new Intl.DateTimeFormat('es-MX',{timeZone:matamoros,hour:'2-digit',minute:'2-digit',second:'2-digit'}).format(new Date(s));
+export const formatMatamorosDateTime=s=>s?new Intl.DateTimeFormat('es-MX',{timeZone:matamoros,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}).format(new Date(s)):'';
 export function notice(message){
  let el=document.getElementById('appNotice');
  if(!el){el=document.createElement('div');el.id='appNotice';el.className='message error';el.setAttribute('role','alert');document.querySelector('main').prepend(el);}
@@ -24,7 +28,7 @@ export function dashboard(data){
  const weekday=Array(7).fill(0);let monthVisits=0;
  for(const x of days){if(x.day in daily){daily[x.day]=x.total;weekday[new Date(x.day+'T12:00:00Z').getUTCDay()]+=x.total;}if(x.day.startsWith(month))monthVisits+=x.total;}
  const total=weekday.reduce((a,b)=>a+b,0);
- const localDay=s=>s?new Intl.DateTimeFormat('en-CA',{timeZone:'America/Matamoros',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(s)):'';
+ const localDay=s=>s?new Intl.DateTimeFormat('en-CA',{timeZone:matamoros,year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(s)):'';
  const lists={new:clients.filter(c=>localDay(c.created_at).startsWith(month)),absent:clients.filter(c=>c.days_absent>=30),monthly:clients.filter(c=>c.month_visits>=1),frequent:clients.filter(c=>c.month_visits>=2&&c.month_visits<=3),upcoming:clients.filter(c=>nextReward(c.visits)?.[0]===c.visits+1),birthdays:clients.filter(c=>c.birth_date?.slice(5,7)===month.slice(5)),today:clients.filter(c=>localDay(c.last_visit)===today)};
  return {clients,lists,daily,weekday_percentages:weekday.map(n=>total?Math.round(n*1000/total)/10:0),metrics:{active:clients.filter(c=>c.active).length,today:daily[today]||0,month_visits:monthVisits,...Object.fromEntries(Object.entries(lists).filter(([k])=>k!=='today').map(([k,v])=>[k,v.length]))}};
 }
@@ -61,7 +65,7 @@ export async function api(action,data=null,query=''){
   const {default:ExcelJS}=await import('exceljs');const workbook=new ExcelJS.Workbook();
   const sheet=workbook.addWorksheet('Visitas');
   sheet.columns=[['Fecha','visited_at'],['Cliente','full_name'],['Código','code'],['Barbero','barber'],['Servicio','service'],['Visita','visit_number'],['Premio','prize_name']].map(([header,key])=>({header,key,width:23}));
-  sheet.addRows(result.visits.map(v=>({...v,courtesy_won:v.courtesy_won?'Sí':'No'})));sheet.getRow(1).font={bold:true,color:{argb:'FFFFFFFF'}};sheet.getRow(1).fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF123B2B'}};sheet.views=[{state:'frozen',ySplit:1}];
+  sheet.addRows(result.visits.map(v=>({...v,visited_at:formatMatamorosDateTime(v.visited_at),courtesy_won:v.courtesy_won?'Sí':'No'})));sheet.getRow(1).font={bold:true,color:{argb:'FFFFFFFF'}};sheet.getRow(1).fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF123B2B'}};sheet.views=[{state:'frozen',ySplit:1}];
   const blob=new Blob([await workbook.xlsx.writeBuffer()],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
   const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='AB-Premier-visitas.xlsx';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
  }
