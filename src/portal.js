@@ -15,7 +15,7 @@ function setPin(value) {
 }
 
 function tickClock() {
-  $('matamorosClock').textContent = `Hora Matamoros ${formatMatamorosTime(new Date())}`;
+  $('matamorosClock').textContent = formatMatamorosTime(new Date());
 }
 
 function resetKiosk() {
