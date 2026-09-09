@@ -1,4 +1,5 @@
 const base=import.meta.env.BASE_URL;
+const rewardImages={5:'reward-5.png',10:'reward-10.png',15:'reward-15.png',20:'reward-20.png',25:'reward-25.png',28:'reward-28.png',32:'reward-32.png',35:'reward-35.png'};
 let audio=new Audio(`${base}assets/celebration.mp3`),context,buffer,source,dialog,lastFocus,raf,timer;
 audio.preload='auto';
 // Resume during the visit button's user gesture, before awaiting the database.
@@ -16,7 +17,7 @@ export function celebrate(prize,cut){
  dialog=document.createElement('dialog');dialog.className='celebration';dialog.setAttribute('aria-labelledby','congratsTitle');
  dialog.innerHTML=`<canvas aria-hidden="true"></canvas><section class="prize-card"><p class="prize-eyebrow">FAMILIA AB · CORTE <span data-cut></span></p><h1 id="congratsTitle">Congratulations!</h1><div class="prize-picture"><img alt="Celebración AB Premier"></div><p class="won-label">¡Te ganaste!</p><h2 data-prize></h2><p class="prize-thanks">Gracias por ser parte de la familia AB.</p><button type="button" data-sound hidden>▶ Escuchar celebración</button><button type="button" data-close>¡Gracias! Continuar</button></section>`;
  dialog.querySelector('[data-prize]').textContent=prize;dialog.querySelector('[data-cut]').textContent=cut;
- const img=dialog.querySelector('img');img.onerror=()=>{img.onerror=null;img.src=`${base}assets/logo-ab-premiere.png`;};img.src=`${base}foto1.jpg`;
+ const img=dialog.querySelector('img');img.onerror=()=>{img.onerror=null;img.src=`${base}foto1.jpg`;img.onerror=()=>{img.onerror=null;img.src=`${base}assets/logo-ab-premiere.png`;};};img.src=rewardImages[cut]?`${base}assets/${rewardImages[cut]}`:`${base}foto1.jpg`;
  dialog.querySelector('[data-close]').onclick=closeCelebration;dialog.querySelector('[data-sound]').onclick=()=>{unlockSound();play();};
  dialog.addEventListener('cancel',e=>{e.preventDefault();closeCelebration();});
  document.body.append(dialog);dialog.showModal();document.body.classList.add('celebrating');play();
