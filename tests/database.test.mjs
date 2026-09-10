@@ -83,6 +83,18 @@ test('Database authorization, visit rules, courtesies and audit',async()=>{
  // Seed can be rerun without resetting earned rewards or duplicating demo clients.
  await db.exec('reset role');await db.exec(fs.readFileSync('supabase/demo/01_datos_prueba.sql','utf8'));
  assert.equal((await db.query('select count(*)::int n from public.clients where is_demo')).rows[0].n,8);
+ await db.exec(fs.readFileSync('supabase/demo/02_reset_demos_a_un_corte.sql','utf8'));
+ await db.exec(fs.readFileSync('supabase/demo/02_reset_demos_a_un_corte.sql','utf8'));
+ assert.equal((await db.query('select count(*)::int n from public.clients where is_demo')).rows[0].n,10);
+ await login(admin);
+ const panchitos=[[1,5],[2,10],[3,15],[4,20],[5,25],[6,28],[7,32],[8,35],[9,5],[10,10]];
+ for(const [demoNo,target] of panchitos){
+  const resetClient=(await rpc('lookup',{code:'90'+String(demoNo).padStart(2,'0')})).client;
+  assert.equal(resetClient.full_name,'Panchito '+demoNo);
+  assert.equal(resetClient.visits,target-1);
+  assert.equal(resetClient.next_courtesy,target);
+  assert.equal(resetClient.one_away,true);
+ }
  // An unlisted cut (30) must not award the old every-five reward.
  await login(admin);const extra=await rpc('register',{full_name:'Non milestone'});
  await db.exec('reset role');
