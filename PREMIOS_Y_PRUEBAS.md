@@ -32,6 +32,9 @@ Se mostrará Congratulations, el premio, la imagen animada, confeti y el audio p
 Prueba los demás códigos para los otros premios. No se permiten dos cortes del mismo socio en el mismo día.
 Los datos DEMO aparecen en reportes junto con los reales: úsalos para pruebas antes de operar.
 
+Para borrar los datos DEMO y dejar solo clientes reales, ejecuta `supabase/demo/03_borrar_demos.sql`.
+Ese archivo borra solo socios con `is_demo = true`, junto con sus visitas y cortesías de prueba.
+
 ## Agregar la foto después
 
 Sube `foto1.jpg` dentro de la carpeta `public` del repositorio (ruta `public/foto1.jpg`).

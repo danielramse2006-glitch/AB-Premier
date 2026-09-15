@@ -53,8 +53,8 @@ function showSuccess(data) {
   const nextText = data.next_prize
     ? `<p>Te faltan <b>${data.remaining_to_next}</b> cortes para desbloquear: <b>${esc(data.next_prize)}</b></p>`
     : '<p>Ya completaste todos los beneficios de Familia AB.</p>';
-  $('clientCard').innerHTML = `<div class="visit-success"><p class="success-overline">Visita registrada</p><h2>Bienvenido, ${esc(current.full_name)}</h2><p class="success-number">Visita #${data.visit_number}</p><p>${esc(formatMatamorosDateTime(data.registered_at || new Date()))}</p>${nextText}<p>Gracias por ser parte de AB Premiere.</p><button type="button" onclick="resetKiosk()">Registrar otra visita</button><small>La pantalla volvera al inicio en 10 segundos.</small></div>`;
-  successTimer = setTimeout(resetKiosk, 10000);
+  $('clientCard').innerHTML = `<div class="visit-success"><p class="success-overline">Visita registrada</p><h2>Bienvenido, ${esc(current.full_name)}</h2><p class="success-number">Visita #${data.visit_number}</p><p>${esc(formatMatamorosDateTime(data.registered_at || new Date()))}</p>${nextText}<p>Gracias por ser parte de AB Premiere.</p><button type="button" onclick="resetKiosk()">Registrar otra visita</button><small>La pantalla volvera al inicio en 25 segundos.</small></div>`;
+  successTimer = setTimeout(resetKiosk, 25000);
 }
 
 async function lookupClient() {
@@ -152,6 +152,11 @@ async function loadCatalogs() {
   }
 }
 
+async function signOut() {
+  await api('admin_logout');
+  location.href = 'admin.html?return=portal';
+}
+
 async function init() {
   tickClock();
   setInterval(tickClock, 1000);
@@ -184,7 +189,7 @@ async function init() {
   }
 }
 
-Object.assign(window, { registerVisit, resetKiosk, showKioskMode, startCamera, capture });
+Object.assign(window, { registerVisit, resetKiosk, showKioskMode, startCamera, capture, signOut });
 window.addEventListener('pagehide', () => { closeCelebration(); clearTimeout(successTimer); stopCamera(); });
 window.addEventListener('unhandledrejection', e => { e.preventDefault(); notice(e.reason?.message || 'No se pudo completar la operacion.'); });
 init();

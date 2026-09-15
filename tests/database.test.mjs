@@ -95,6 +95,9 @@ test('Database authorization, visit rules, courtesies and audit',async()=>{
   assert.equal(resetClient.next_courtesy,target);
   assert.equal(resetClient.one_away,true);
  }
+ await db.exec('reset role');await db.exec(fs.readFileSync('supabase/demo/03_borrar_demos.sql','utf8'));
+ assert.equal((await db.query('select count(*)::int n from public.clients where is_demo')).rows[0].n,0);
+ assert.ok((await db.query('select count(*)::int n from public.clients')).rows[0].n>=2);
  // An unlisted cut (30) must not award the old every-five reward.
  await login(admin);const extra=await rpc('register',{full_name:'Non milestone'});
  await db.exec('reset role');
