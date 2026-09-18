@@ -16,8 +16,8 @@ delete from public.clients;
 
 commit;
 
-select
- (select count(*) from public.clients) as clientes_restantes,
- (select count(*) from public.visits) as visitas_restantes,
- (select count(*) from public.courtesies) as cortesias_restantes,
- (select count(*) from storage.objects where bucket_id='client-photos') as fotos_pendientes_en_storage;
+select 'clientes_restantes' as dato, count(*) as total from public.clients
+union all
+select 'visitas_restantes' as dato, count(*) as total from public.visits
+union all
+select 'cortesias_restantes' as dato, count(*) as total from public.courtesies;
