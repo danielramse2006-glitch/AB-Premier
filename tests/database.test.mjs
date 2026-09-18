@@ -106,5 +106,13 @@ test('Database authorization, visit rules, courtesies and audit',async()=>{
  await login(admin);const non=await rpc('visit',{code:extra.code,barber_id:1,service_id:1});assert.equal(non.visit_number,30);assert.equal(non.courtesy_won,false);assert.equal(non.prize_name,null);
  assert.equal((await rpc('lookup',{code:extra.code})).client.next_courtesy,32);
  await login(outsider);await assert.rejects(()=>rpc('rewards'),/Acceso restringido/);
+ await db.exec('reset role');await db.exec(fs.readFileSync('supabase/maintenance/01_borrar_todos_los_clientes.sql','utf8'));
+ assert.equal((await db.query('select count(*)::int n from public.clients')).rows[0].n,0);
+ assert.equal((await db.query('select count(*)::int n from public.visits')).rows[0].n,0);
+ assert.equal((await db.query('select count(*)::int n from public.courtesies')).rows[0].n,0);
+ assert.equal((await db.query("select count(*)::int n from storage.objects where bucket_id='client-photos'")).rows[0].n,0);
+ assert.ok((await db.query('select count(*)::int n from public.barbers')).rows[0].n>0);
+ assert.ok((await db.query('select count(*)::int n from public.services')).rows[0].n>0);
+ assert.ok((await db.query('select count(*)::int n from public.profiles')).rows[0].n>0);
  await db.close();
 });

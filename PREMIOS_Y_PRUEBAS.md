@@ -35,6 +35,10 @@ Los datos DEMO aparecen en reportes junto con los reales: úsalos para pruebas a
 Para borrar los datos DEMO y dejar solo clientes reales, ejecuta `supabase/demo/03_borrar_demos.sql`.
 Ese archivo borra solo socios con `is_demo = true`, junto con sus visitas y cortesías de prueba.
 
+Para borrar todos los clientes y dejar el sistema limpio, ejecuta `supabase/maintenance/01_borrar_todos_los_clientes.sql`.
+Ese archivo borra clientes reales y de prueba, visitas, cortesías y fotos del bucket `client-photos`.
+No borra usuarios de login, administradores, barberos, servicios ni permisos.
+
 ## Agregar la foto después
 
 Sube `foto1.jpg` dentro de la carpeta `public` del repositorio (ruta `public/foto1.jpg`).
