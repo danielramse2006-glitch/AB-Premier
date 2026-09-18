@@ -36,8 +36,9 @@ Para borrar los datos DEMO y dejar solo clientes reales, ejecuta `supabase/demo/
 Ese archivo borra solo socios con `is_demo = true`, junto con sus visitas y cortesías de prueba.
 
 Para borrar todos los clientes y dejar el sistema limpio, ejecuta `supabase/maintenance/01_borrar_todos_los_clientes.sql`.
-Ese archivo borra clientes reales y de prueba, visitas, cortesías y fotos del bucket `client-photos`.
+Ese archivo borra clientes reales y de prueba, visitas y cortesías.
 No borra usuarios de login, administradores, barberos, servicios ni permisos.
+Las fotos del bucket `client-photos` se borran aparte desde Supabase Storage, porque Supabase no permite borrarlas directo desde SQL.
 
 ## Agregar la foto después
 

@@ -1,10 +1,9 @@
 -- BORRA TODOS LOS CLIENTES.
--- Tambien borra visitas, cortesias, fotos de clientes y bitacora relacionada.
+-- Tambien borra visitas, cortesias y bitacora relacionada.
 -- No borra usuarios/admins/barberos/servicios/configuracion.
+-- Las fotos del bucket client-photos se borran desde Storage, porque Supabase
+-- no permite borrarlas directo desde SQL.
 begin;
-
-delete from storage.objects
-where bucket_id='client-photos';
 
 delete from public.courtesies;
 delete from public.visits;
@@ -21,4 +20,4 @@ select
  (select count(*) from public.clients) as clientes_restantes,
  (select count(*) from public.visits) as visitas_restantes,
  (select count(*) from public.courtesies) as cortesias_restantes,
- (select count(*) from storage.objects where bucket_id='client-photos') as fotos_restantes;
+ (select count(*) from storage.objects where bucket_id='client-photos') as fotos_pendientes_en_storage;

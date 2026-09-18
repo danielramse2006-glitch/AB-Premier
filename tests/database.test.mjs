@@ -110,7 +110,7 @@ test('Database authorization, visit rules, courtesies and audit',async()=>{
  assert.equal((await db.query('select count(*)::int n from public.clients')).rows[0].n,0);
  assert.equal((await db.query('select count(*)::int n from public.visits')).rows[0].n,0);
  assert.equal((await db.query('select count(*)::int n from public.courtesies')).rows[0].n,0);
- assert.equal((await db.query("select count(*)::int n from storage.objects where bucket_id='client-photos'")).rows[0].n,0);
+ assert.ok((await db.query("select count(*)::int n from storage.objects where bucket_id='client-photos'")).rows[0].n>0);
  assert.ok((await db.query('select count(*)::int n from public.barbers')).rows[0].n>0);
  assert.ok((await db.query('select count(*)::int n from public.services')).rows[0].n>0);
  assert.ok((await db.query('select count(*)::int n from public.profiles')).rows[0].n>0);
