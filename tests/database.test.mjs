@@ -75,7 +75,7 @@ test('Database authorization, visit rules, courtesies and audit',async()=>{
   const before=(await rpc('lookup',{code})).client;
   assert.equal(before.visits,target-1);assert.equal(before.next_courtesy,target);assert.equal(before.one_away,true);
   const v=await rpc('visit',{code,barber_id:1,service_id:1,prize_name:'Hacked',points:9999});
-  assert.equal(v.visit_number,target);assert.equal(v.courtesy_won,true);assert.equal(v.prize_name,rewards.find(([cut])=>cut===target)[1]);assert.equal(v.points_earned,0);assert.equal(v.premium,target===35);
+  assert.equal(v.visit_number,target);assert.equal(v.courtesy_won,true);assert.equal(v.prize_name,rewards.find(([cut])=>cut===target)[1]);assert.equal(v.points_earned,0);assert.equal(v.premium,false);assert.equal(v.membership_tier,'Membership');
   await assert.rejects(()=>rpc('visit',{code,barber_id:1,service_id:1}),/ya tiene una visita/);
  }
  assert.equal((await rpc('lookup',{code:'9135'})).client.next_courtesy,null);

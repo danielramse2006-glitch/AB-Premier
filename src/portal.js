@@ -1,5 +1,6 @@
 import { api, notice, formatMatamorosDateTime, formatMatamorosTime } from './supabase.js';
 import { celebrate, unlockSound, closeCelebration } from './celebration.js';
+import { membershipTier } from './tiers.js';
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -43,7 +44,8 @@ function showKioskMode(mode) {
 function showClient(client) {
   current = client;
   const n = client.visits;
-  $('clientCard').innerHTML = `<div class="kiosk-client"><img class="kiosk-avatar" alt="Socio AB Premier" src="${esc(client.photo_url || 'assets/logo-ab-premiere.png')}"><div><h2>${esc(client.full_name)}</h2>${client.premium ? '<span class="premium">Cliente Premium</span>' : ''}<p>Visitas acumuladas: <b>${n}</b></p><p>Ultima visita: <b>${esc(formatMatamorosDateTime(client.last_visit) || 'Sin visitas')}</b></p>${client.next_prize ? `<p>Proximo beneficio: <b>${esc(client.next_prize)}</b></p>` : '<p>Todos tus beneficios estan desbloqueados.</p>'}${client.one_away ? '<p class="kiosk-alert">Te falta un corte para ganar tu proximo beneficio.</p>' : ''}${client.birthday_month ? '<p class="kiosk-alert">Feliz mes de cumpleanos.</p>' : ''}</div></div>`;
+  const tier = client.membership_tier || membershipTier(n);
+  $('clientCard').innerHTML = `<div class="kiosk-client"><img class="kiosk-avatar" alt="Socio AB Premier" src="${esc(client.photo_url || 'assets/logo-ab-premiere.png')}"><div><h2>${esc(client.full_name)}</h2><span class="premium">${esc(tier)}</span><p>Visitas acumuladas: <b>${n}</b></p><p>Ultima visita: <b>${esc(formatMatamorosDateTime(client.last_visit) || 'Sin visitas')}</b></p>${client.next_prize ? `<p>Proximo beneficio: <b>${esc(client.next_prize)}</b></p>` : '<p>Todos tus beneficios estan desbloqueados.</p>'}${client.one_away ? '<p class="kiosk-alert">Te falta un corte para ganar tu proximo beneficio.</p>' : ''}${client.birthday_month ? '<p class="kiosk-alert">Feliz mes de cumpleanos.</p>' : ''}</div></div>`;
   $('nipStep').classList.add('hidden');
   $('clientArea').classList.remove('hidden');
 }

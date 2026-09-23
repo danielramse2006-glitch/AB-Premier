@@ -7,6 +7,8 @@ Este archivo actualiza las funciones y conserva clientes, visitas y cortesías e
 Los nuevos cortes no generan puntos. Los campos históricos de puntos se conservan para evitar pérdida de datos, pero ya no se muestran ni se usan.
 Cada visita registrada cuenta como un corte. El programa es acumulativo: no se reinicia después del corte 35.
 
+Categoría por cortes acumulados: 1–40 Membership, 41–90 Premium y 91 en adelante VIP. Ejecuta `supabase/migrations/202609230001_membership_tiers.sql` en Supabase para crear esta regla en la base de datos.
+
 ## Cargar datos ficticios
 
 En otra consulta, pega TODO `supabase/demo/02_reset_demos_a_un_corte.sql` y pulsa Run.

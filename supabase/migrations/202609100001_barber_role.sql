@@ -6,6 +6,11 @@ alter table public.profiles drop constraint if exists profiles_role_check;
 alter table public.profiles add constraint profiles_role_check
  check(role in ('admin','recepcion','consulta','barbero'));
 
+create or replace function ab_private.membership_tier(cuts integer)
+returns text language sql immutable as $$
+ select case when coalesce(cuts,0)>=91 then 'VIP' when coalesce(cuts,0)>=41 then 'Premium' else 'Membership' end
+$$;
+
 create or replace function public.ab_api(action text,p jsonb default '{}') returns jsonb
 language plpgsql security definer set search_path='' as $$
 declare
@@ -60,7 +65,7 @@ begin
   select cut,name into next_cut,prize from ab_private.rewards where cut>n order by cut limit 1;
   perform ab_private.audit('lookup','client',c.id::text);
   return jsonb_build_object('client',to_jsonb(c)||jsonb_build_object('visits',n,'last_visit',(select max(visited_at) from public.visits where client_id=c.id),
-   'next_courtesy',next_cut,'next_prize',prize,'premium',n>=35,'one_away',next_cut=n+1,'birthday_month',extract(month from c.birth_date)=extract(month from today),'weekday_percentages',rows_json));
+   'next_courtesy',next_cut,'next_prize',prize,'premium',n>=41,'membership_tier',ab_private.membership_tier(n),'one_away',next_cut=n+1,'birthday_month',extract(month from c.birth_date)=extract(month from today),'weekday_percentages',rows_json));
  when 'visit' then
   select * into c from public.clients where code=p->>'code' for update;
   if not found then raise exception 'Cliente no encontrado.'; end if;
@@ -75,7 +80,7 @@ begin
   update public.clients set active=true,deactivated_at=null where id=c.id;
   if prize is not null then insert into public.courtesies(client_id,visit_number,prize_name) values(c.id,n,prize); end if;
   perform ab_private.audit('create','visit',ident::text,jsonb_build_object('cut',n,'prize',prize));
-  return jsonb_build_object('visit_number',n,'points_earned',0,'prize_name',prize,'premium',n>=35,'courtesy_won',prize is not null,'message','Visita registrada correctamente.');
+  return jsonb_build_object('visit_number',n,'points_earned',0,'prize_name',prize,'premium',n>=41,'membership_tier',ab_private.membership_tier(n),'courtesy_won',prize is not null,'message','Visita registrada correctamente.');
  when 'dashboard' then
   with changed as (
    update public.clients cl set active=false,deactivated_at=now() where cl.active and
