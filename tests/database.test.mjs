@@ -114,5 +114,17 @@ test('Database authorization, visit rules, courtesies and audit',async()=>{
  assert.ok((await db.query('select count(*)::int n from public.barbers')).rows[0].n>0);
  assert.ok((await db.query('select count(*)::int n from public.services')).rows[0].n>0);
  assert.ok((await db.query('select count(*)::int n from public.profiles')).rows[0].n>0);
+ await db.exec(fs.readFileSync('supabase/migrations/202611140001_admin_client_photos.sql','utf8'));
+ await login(barber);
+ const member = await rpc('register',{full_name:'Socio para foto'});
+ const path = member.id + '/portrait.jpg';
+ await assert.rejects(()=>db.query("insert into storage.objects(bucket_id,name) values('client-photos',$1)",[path]),/row-level security/);
+ await assert.rejects(()=>rpc('set_photo',{id:member.id,path}),/Solo el administrador/);
+ await assert.rejects(()=>db.query("select ab_private.ab_api('set_photo','{}')"),/permission denied/);
+ await login(admin);
+ await assert.rejects(()=>rpc('set_photo',{id:member.id,path}),/imagen no está disponible/);
+ await db.query("insert into storage.objects(bucket_id,name) values('client-photos',$1)",[path]);
+ await rpc('set_photo',{id:member.id,path});
+ assert.equal((await rpc('lookup',{code:member.code})).client.photo_path,path);
  await db.close();
 });

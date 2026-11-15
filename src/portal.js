@@ -4,7 +4,7 @@ import { membershipTier } from './tiers.js';
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-let current = null, photo = '', stream = null, busy = false, successTimer = null;
+let current = null, busy = false, successTimer = null;
 
 function msg(id, text, error = false) {
   $(id).innerHTML = text ? `<div class="${error ? 'error' : 'ok'}">${text}</div>` : '';
@@ -31,7 +31,6 @@ function resetKiosk() {
 }
 
 function showKioskMode(mode) {
-  stopCamera();
   msg('lookupMessage', '');
   msg('registerMessage', '');
   $('visitModeButton').classList.toggle('active', mode === 'visit');
@@ -103,43 +102,14 @@ async function registerVisit() {
   }
 }
 
-async function startCamera() {
-  try {
-    if (stream) return;
-    stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
-    $('video').srcObject = stream;
-  } catch {
-    msg('registerMessage', 'La camara no esta disponible; puedes continuar sin foto.', true);
-  }
-}
-
-function stopCamera() {
-  stream?.getTracks().forEach(t => t.stop());
-  stream = null;
-}
-
-function capture() {
-  if (!stream) return msg('registerMessage', 'Primero enciende la camara.', true);
-  const c = $('canvas'), v = $('video');
-  if (!v.videoWidth) return;
-  const scale = Math.min(1, 800 / v.videoWidth);
-  c.width = Math.round(v.videoWidth * scale);
-  c.height = Math.round(v.videoHeight * scale);
-  c.getContext('2d').drawImage(v, 0, 0, c.width, c.height);
-  photo = c.toDataURL('image/jpeg', .8);
-  msg('registerMessage', 'Foto capturada.');
-}
-
 $('registerForm').onsubmit = async e => {
   e.preventDefault();
   const button = e.target.querySelector('button[type="submit"]');
   button.disabled = true;
   try {
-    const d = await api('register', { full_name: $('fullName').value, birth_date: $('birthDate').value, phone: $('phone').value, photo });
-    msg('registerMessage', `Socio creado: <b>${esc(d.name)}</b><br>NIP: <b style="font-size:34px">${esc(d.code)}</b>${d.photoWarning ? '<br>' + esc(d.photoWarning) : ''}`);
+    const d = await api('register', { full_name: $('fullName').value, birth_date: $('birthDate').value, phone: $('phone').value });
+    msg('registerMessage', `Socio creado: <b>${esc(d.name)}</b><br>NIP: <b style="font-size:34px">${esc(d.code)}</b>`);
     e.target.reset();
-    photo = '';
-    stopCamera();
   } catch (e) {
     msg('registerMessage', esc(e.message), true);
   } finally {
@@ -191,7 +161,7 @@ async function init() {
   }
 }
 
-Object.assign(window, { registerVisit, resetKiosk, showKioskMode, startCamera, capture, signOut });
-window.addEventListener('pagehide', () => { closeCelebration(); clearTimeout(successTimer); stopCamera(); });
+Object.assign(window, { registerVisit, resetKiosk, showKioskMode, signOut });
+window.addEventListener('pagehide', () => { closeCelebration(); clearTimeout(successTimer); });
 window.addEventListener('unhandledrejection', e => { e.preventDefault(); notice(e.reason?.message || 'No se pudo completar la operacion.'); });
 init();
