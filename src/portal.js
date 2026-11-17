@@ -6,6 +6,8 @@ const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 let current = null, busy = false, successTimer = null;
 
+let photo = '', stream = null, cameraRequest = 0;
+
 function msg(id, text, error = false) {
   $(id).innerHTML = text ? `<div class="${error ? 'error' : 'ok'}">${text}</div>` : '';
 }
@@ -31,6 +33,9 @@ function resetKiosk() {
 }
 
 function showKioskMode(mode) {
+  stopCamera();
+  photo = '';
+  $('cameraStatus').textContent = '';
   msg('lookupMessage', '');
   msg('registerMessage', '');
   $('visitModeButton').classList.toggle('active', mode === 'visit');
@@ -102,14 +107,63 @@ async function registerVisit() {
   }
 }
 
+async function startCamera() {
+  if ($('registerPhoto').classList.contains('hidden') || stream) return;
+  const request = ++cameraRequest;
+  try {
+    const pending = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
+    if (request !== cameraRequest) {
+      pending.getTracks().forEach(track => track.stop());
+      return;
+    }
+    stream = pending;
+    $('video').srcObject = stream;
+    $('cameraStatus').textContent = '';
+  } catch {
+    if (request === cameraRequest) $('cameraStatus').textContent = 'La cámara no está disponible. Puedes continuar sin foto.';
+  }
+}
+
+function stopCamera() {
+  cameraRequest++;
+  stream?.getTracks().forEach(t => t.stop());
+  stream = null;
+  $('video').srcObject = null;
+}
+
+function capture() {
+  if (!stream) return void ($('cameraStatus').textContent = 'Primero enciende la cámara.');
+  const c = $('canvas'), v = $('video');
+  if (!v.videoWidth) return;
+  const scale = Math.min(1, 800 / v.videoWidth);
+  c.width = Math.round(v.videoWidth * scale);
+  c.height = Math.round(v.videoHeight * scale);
+  c.getContext('2d').drawImage(v, 0, 0, c.width, c.height);
+  photo = c.toDataURL('image/jpeg', .8);
+  $('cameraStatus').textContent = 'Foto capturada.';
+}
+
 $('registerForm').onsubmit = async e => {
   e.preventDefault();
   const button = e.target.querySelector('button[type="submit"]');
   button.disabled = true;
+  const capturedPhoto = photo;
+  stopCamera();
   try {
     const d = await api('register', { full_name: $('fullName').value, birth_date: $('birthDate').value, phone: $('phone').value });
     msg('registerMessage', `Socio creado: <b>${esc(d.name)}</b><br>NIP: <b style="font-size:34px">${esc(d.code)}</b>`);
     e.target.reset();
+    photo = '';
+    $('cameraStatus').textContent = '';
+    if (capturedPhoto) {
+      try {
+        const file = await (await fetch(capturedPhoto)).blob();
+        await api('upload_client_photo', { id: d.id, file });
+        $('cameraStatus').textContent = 'Foto guardada.';
+      } catch {
+        $('cameraStatus').textContent = 'El socio quedó registrado. Agrega la foto desde Clientes.';
+      }
+    }
   } catch (e) {
     msg('registerMessage', esc(e.message), true);
   } finally {
@@ -150,7 +204,8 @@ async function init() {
     if (e.key === 'Enter' && !current) lookupClient();
   });
   try {
-    await api('admin_session');
+    const session = await api('admin_session');
+    $('registerPhoto').classList.toggle('hidden', session.user.role !== 'admin');
     await api('rewards');
     await loadCatalogs();
     $('connection').textContent = '';
@@ -161,7 +216,7 @@ async function init() {
   }
 }
 
-Object.assign(window, { registerVisit, resetKiosk, showKioskMode, signOut });
-window.addEventListener('pagehide', () => { closeCelebration(); clearTimeout(successTimer); });
+Object.assign(window, { registerVisit, resetKiosk, showKioskMode, startCamera, capture, signOut });
+window.addEventListener('pagehide', () => { closeCelebration(); clearTimeout(successTimer); stopCamera(); });
 window.addEventListener('unhandledrejection', e => { e.preventDefault(); notice(e.reason?.message || 'No se pudo completar la operacion.'); });
 init();

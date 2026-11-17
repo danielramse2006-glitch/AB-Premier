@@ -77,6 +77,12 @@
       <div id="registerStep" class="hidden">
         <p class="kiosk-panel-title">Registrar socio</p>
         <p class="kiosk-panel-subtitle">Alta Familia AB</p>
+        <div id="registerPhoto" class="hidden">
+          <div class="kiosk-camera"><video id="video" autoplay playsinline></video></div>
+          <p class="camera-actions"><button type="button" onclick="startCamera()">Encender camara</button><button type="button" onclick="capture()">Tomar foto</button></p>
+          <canvas id="canvas" hidden></canvas>
+          <p id="cameraStatus" role="status"></p>
+        </div>
         <form id="registerForm" class="kiosk-register-form">
           <label>Nombre completo</label>
           <input id="fullName" required>
